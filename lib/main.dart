@@ -6,10 +6,12 @@ import 'features/auth/ui/login_screen.dart';
 import 'features/auth/ui/signup_screen.dart';
 import 'features/home/ui/home_screen.dart';
 
-// OCR + Bills
+// OCR + Bills + Warranty
 import 'features/ocr/ui/ocr_screen.dart';
 import 'features/bills/ui/add_bill_screen.dart';
-import 'features/bills/ui/bill_list_screen.dart'; // ← جديد
+import 'features/bills/ui/bill_list_screen.dart';
+import 'features/bills/ui/warranty_list_screen.dart';
+import 'features/bills/ui/add_warranty_screen.dart';
 
 void main() {
   runApp(const BillWiseApp());
@@ -25,15 +27,17 @@ class BillWiseApp extends StatelessWidget {
       theme: AppTheme.light,
       initialRoute: '/login',
       routes: {
-        '/login': (_) => const LoginScreen(),
-        '/signup': (_) => const SignupScreen(),
-        '/home': (_) => const HomeScreen(),
-        '/ocr': (_) => const OCRScreen(),
-        '/add-bill': (_) => const AddBillScreen(),
-        '/bills': (_) => const BillListScreen(), // ← جديد
+        '/login'       : (_) => const LoginScreen(),
+        '/signup'      : (_) => const SignupScreen(),
+        '/home'        : (_) => const HomeScreen(),
+        '/ocr'         : (_) => const OCRScreen(),
+        '/add-bill'    : (_) => const AddBillScreen(),
+        '/add-warranty': (_) => const AddWarrantyScreen(),   // ← جديد
+        '/bills'       : (_) => const BillListScreen(),      // All Bills
+        '/warranties'  : (_) => const WarrantyListScreen(),  // All Warranties
       },
-      // لو أحد نادى مسار غير موجود، نرجعه للهوم
-      onUnknownRoute: (_) => MaterialPageRoute(builder: (_) => const HomeScreen()),
+      onUnknownRoute: (_) =>
+          MaterialPageRoute(builder: (_) => const HomeScreen()),
     );
   }
 }

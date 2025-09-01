@@ -8,7 +8,6 @@ class BillRepo {
   final _items = <Bill>[];
 
   List<Bill> all() {
-    // ترتيب تصاعدي حسب أقرب موعد (returnBy/warrantyUntil) ثم بتاريخ الشراء
     _items.sort((a, b) {
       final da = a.returnBy ?? a.warrantyUntil ?? a.purchaseDate;
       final db = b.returnBy ?? b.warrantyUntil ?? b.purchaseDate;
@@ -22,7 +21,11 @@ class BillRepo {
     required double amount,
     required DateTime purchaseDate,
     DateTime? returnBy,
+    DateTime? warrantyStartDate,
     DateTime? warrantyUntil,
+    String? productName,
+    String? billNumber,
+    String? serialNumber,
   }) {
     final b = Bill(
       id: const Uuid().v4(),
@@ -30,7 +33,11 @@ class BillRepo {
       amount: amount,
       purchaseDate: purchaseDate,
       returnBy: returnBy,
+      warrantyStartDate: warrantyStartDate,
       warrantyUntil: warrantyUntil,
+      productName: productName,
+      billNumber: billNumber,
+      serialNumber: serialNumber,
     );
     _items.add(b);
     return b;

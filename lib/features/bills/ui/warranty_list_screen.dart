@@ -3,15 +3,14 @@ import 'package:intl/intl.dart';
 import '../data/bill_repo.dart';
 import '../models/bill.dart';
 
-class BillListScreen extends StatefulWidget {
-  const BillListScreen({super.key});
+class WarrantyListScreen extends StatefulWidget {
+  const WarrantyListScreen({super.key});
   @override
-  State<BillListScreen> createState() => _BillListScreenState();
+  State<WarrantyListScreen> createState() => _WarrantyListScreenState();
 }
 
-class _BillListScreenState extends State<BillListScreen> {
+class _WarrantyListScreenState extends State<WarrantyListScreen> {
   final _search = TextEditingController();
-
   @override
   void dispose() { _search.dispose(); super.dispose(); }
 
@@ -19,8 +18,9 @@ class _BillListScreenState extends State<BillListScreen> {
   Widget build(BuildContext context) {
     final all = BillRepo.instance.all();
     final items = all.where((b) =>
-      _search.text.trim().isEmpty ||
-      b.vendor.toLowerCase().contains(_search.text.trim().toLowerCase())
+      b.warrantyUntil != null &&
+      (_search.text.trim().isEmpty ||
+       b.vendor.toLowerCase().contains(_search.text.trim().toLowerCase()))
     ).toList();
 
     return Scaffold(
@@ -43,7 +43,7 @@ class _BillListScreenState extends State<BillListScreen> {
       body: Column(
         children: [
           _ListHeader(
-            title: 'All Bills',
+            title: 'All warranties',
             search: _search,
             rightIcons: const [Icons.document_scanner_outlined, Icons.filter_list],
             onRightTap: (i) {
@@ -52,12 +52,12 @@ class _BillListScreenState extends State<BillListScreen> {
           ),
           Expanded(
             child: items.isEmpty
-              ? const Center(child: Text('No bills yet'))
+              ? const Center(child: Text('No warranties yet'))
               : ListView.separated(
                   padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
                   itemCount: items.length,
                   separatorBuilder: (_, __) => const SizedBox(height: 10),
-                  itemBuilder: (_, i) => _BillCard(item: items[i]),
+                  itemBuilder: (_, i) => _WarrantyCard(item: items[i]),
                 ),
           ),
         ],
@@ -66,8 +66,8 @@ class _BillListScreenState extends State<BillListScreen> {
   }
 }
 
-class _BillCard extends StatelessWidget {
-  const _BillCard({required this.item});
+class _WarrantyCard extends StatelessWidget {
+  const _WarrantyCard({required this.item});
   final Bill item;
 
   double _progress(DateTime start, DateTime end) {
@@ -82,18 +82,18 @@ class _BillCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final df = DateFormat('y MMM d');
-    final next = item.returnBy ?? item.warrantyUntil;
-    final percent = next == null ? null : _progress(item.purchaseDate, next);
+    final until = item.warrantyUntil!;
+    final percent = _progress(item.purchaseDate, until);
 
     return InkWell(
       borderRadius: BorderRadius.circular(16),
-      onTap: () {/* لاحقًا: صفحة تفاصيل */},
+      onTap: () {/* لاحقًا: تفاصيل الضمان */},
       child: Ink(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           gradient: const LinearGradient(
-            colors: [Color(0xFF3F2B96), Color(0xFFA8C0FF)],
+            colors: [Color(0xFF432C7A), Color(0xFF805AD5)],
             begin: Alignment.centerLeft, end: Alignment.centerRight),
         ),
         child: DefaultTextStyle(
@@ -102,13 +102,13 @@ class _BillCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(children: [
-                const Icon(Icons.receipt_long_outlined, color: Colors.white),
+                const Icon(Icons.verified, color: Colors.white),
                 const SizedBox(width: 8),
                 Expanded(child: Text(item.vendor, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
                 const Icon(Icons.chevron_right, color: Colors.white),
               ]),
               const SizedBox(height: 6),
-              Text('Date: ${df.format(item.purchaseDate)} • Amount: ${item.amount.toStringAsFixed(2)}'),
+              Text('Warranty until: ${df.format(until)} • Purchased: ${df.format(item.purchaseDate)}'),
               const SizedBox(height: 8),
               ClipRRect(
                 borderRadius: BorderRadius.circular(6),
@@ -126,6 +126,7 @@ class _BillCard extends StatelessWidget {
   }
 }
 
+// نعيد استخدام نفس _ListHeader من صفحة الفواتير
 class _ListHeader extends StatelessWidget {
   const _ListHeader({
     required this.title,
@@ -153,7 +154,6 @@ class _ListHeader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // شريط البحث
           TextField(
             controller: search,
             onChanged: (_) => (context as Element).markNeedsBuild(),
