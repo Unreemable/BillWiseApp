@@ -5,6 +5,17 @@ allprojects {
     }
 }
 
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // وجوده اختياري إذا عرّفتِ النسخة في settings.gradle.kts
+        classpath("com.google.gms:google-services:4.4.2")
+    }
+}
+
 val newBuildDir: Directory =
     rootProject.layout.buildDirectory
         .dir("../../build")
