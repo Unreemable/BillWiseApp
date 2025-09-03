@@ -3,8 +3,12 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+integrate-main
   firebase_auth
   firebase_core
+
+  file_selector_windows
+ main
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST

@@ -1,30 +1,28 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:billwise/main.dart';
+import 'package:billwise/main.dart'; 
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('BillWise app basic navigation', (WidgetTester tester) async {
+    // يبني التطبيق
+    await tester.pumpWidget(const BillWiseApp());
+    expect(find.byType(MaterialApp), findsOneWidget);
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // شاشة تسجيل الدخول أولاً
+    expect(find.text('BillWise - Login'), findsOneWidget);
+    expect(find.text('Create account'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // نروح شاشة إنشاء حساب
+    await tester.tap(find.text('Create account'));
+    await tester.pumpAndSettle();
+    expect(find.text('Create Account'), findsOneWidget);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // من شاشة إنشاء حساب نروح للهوم (السلوك المؤقت)
+    await tester.tap(find.text('Sign up'));
+    await tester.pumpAndSettle();
+
+    // نتأكد وصلنا للهوم
+    expect(find.text('BillWise'), findsOneWidget);
+    expect(find.text('Scan Bill (OCR)'), findsOneWidget);
   });
 }
