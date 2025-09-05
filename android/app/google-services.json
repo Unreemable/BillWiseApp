@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "945589001206",
+    "firebase_url": "https://billwise2-e6e3c-default-rtdb.firebaseio.com",
+    "project_id": "billwise2-e6e3c",
+    "storage_bucket": "billwise2-e6e3c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:945589001206:android:da94327672552f16b0c5d7",
+        "android_client_info": {
+          "package_name": "com.example.billwise"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBd0hw1sJlJdxaJ9VDwCtBWyIL-05aBpaQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

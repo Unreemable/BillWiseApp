@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
+<<<<<<< HEAD
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
@@ -30,6 +31,24 @@ android {
         versionCode = flutter.versionCode
         versionName = flutter.versionName
 
+=======
+    // يجب أن يأتي بعد Android/Kotlin
+    id("dev.flutter.flutter-gradle-plugin")
+    // Firebase Google Services (لو عندك google-services.json)
+    id("com.google.gms.google-services")
+}
+
+android {
+    namespace = "com.example.billwise"   // عدّليها لو اسم الباكيج مختلف
+    compileSdk = 34
+
+    defaultConfig {
+        applicationId = "com.example.billwise" // عدّليها لو مختلف
+        minSdk = flutter.minSdkVersion
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
+>>>>>>> b8e3683 (Edit the error)
     }
 
     buildTypes {
@@ -44,3 +63,13 @@ android {
 flutter {
     source = "../.."
 }
+<<<<<<< HEAD
+=======
+
+dependencies {
+    // BOM لتوحيد نسخ Firebase (اختياري)
+    implementation(platform("com.google.firebase:firebase-bom:34.2.0"))
+    // مثال: Analytics (اختياري)
+    implementation("com.google.firebase:firebase-analytics-ktx")
+}
+>>>>>>> b8e3683 (Edit the error)

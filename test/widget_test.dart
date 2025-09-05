@@ -8,7 +8,7 @@ void main() {
     await tester.pumpWidget(const BillWiseApp());
     expect(find.byType(MaterialApp), findsOneWidget);
 
-    // شاشة تسجيل الدخول أولاً
+    // شاشة تسجيل الدخول 
     expect(find.text('BillWise - Login'), findsOneWidget);
     expect(find.text('Create account'), findsOneWidget);
 
